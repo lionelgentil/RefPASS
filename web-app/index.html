@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pleasanton Adult Sunday Soccer - Referee App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Soccer Referee">
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="splash-screen">
+        <div class="splash-content">
+            <div class="soccer-ball">⚽</div>
+            <h1>Pleasanton Adult Sunday Soccer</h1>
+            <h2>Team Check-in App for Referee</h2>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="main-app" class="main-app hidden">
+        <!-- Header -->
+        <header class="app-header">
+            <h1 id="page-title">Match Days</h1>
+            <button id="sync-btn" class="sync-btn" title="Sync with server">
+                <span class="sync-icon">🔄</span>
+            </button>
+        </header>
+
+        <!-- Tab Navigation -->
+        <nav class="tab-nav">
+            <button class="tab-btn" data-tab="teams">
+                <span class="tab-icon">👥</span>
+                <span class="tab-label">Teams</span>
+            </button>
+            <button class="tab-btn active" data-tab="matchdays">
+                <span class="tab-icon">📅</span>
+                <span class="tab-label">Match Days</span>
+            </button>
+            <button class="tab-btn" data-tab="settings">
+                <span class="tab-icon">⚙️</span>
+                <span class="tab-label">Settings</span>
+            </button>
+        </nav>
+
+        <!-- Content Area -->
+        <main class="content-area">
+            <!-- Teams Tab -->
+            <div id="teams-tab" class="tab-content">
+                <div class="section-header">
+                    <button id="add-league-btn" class="btn btn-secondary">Add League</button>
+                    <button id="add-team-btn" class="btn btn-primary">Add Team</button>
+                </div>
+                <div id="teams-list" class="teams-list"></div>
+            </div>
+
+            <!-- Match Days Tab -->
+            <div id="matchdays-tab" class="tab-content active">
+                <div class="section-header">
+                    <button id="add-matchday-btn" class="btn btn-primary">Add Match Day</button>
+                </div>
+                
+                <div class="matchdays-sections">
+                    <section class="matchday-section">
+                        <h3>Upcoming Match Days</h3>
+                        <div id="upcoming-matchdays" class="matchdays-list"></div>
+                    </section>
+                    
+                    <section class="matchday-section">
+                        <h3>Past Match Days</h3>
+                        <div id="past-matchdays" class="matchdays-list"></div>
+                    </section>
+                </div>
+            </div>
+
+            <!-- Settings Tab -->
+            <div id="settings-tab" class="tab-content">
+                <div class="settings-sections">
+                    <section class="settings-section">
+                        <h3>Real-time Sync</h3>
+                        <div class="setting-item">
+                            <span class="setting-icon">🔄</span>
+                            <span>Real-time sync active</span>
+                            <span class="setting-value">Every 30s</span>
+                        </div>
+                        <button id="force-refresh-btn" class="btn btn-secondary">Force Refresh Now</button>
+                        <div id="sync-status" class="sync-status"></div>
+                    </section>
+                    
+                    <section class="settings-section">
+                        <h3>Statistics</h3>
+                        <div class="setting-item">
+                            <span>Total Teams</span>
+                            <span id="total-teams" class="setting-value">0</span>
+                        </div>
+                        <div class="setting-item">
+                            <span>Total Players</span>
+                            <span id="total-players" class="setting-value">0</span>
+                        </div>
+                        <div class="setting-item">
+                            <span>Scheduled Match Days</span>
+                            <span id="scheduled-matchdays" class="setting-value">0</span>
+                        </div>
+                    </section>
+                    
+                    <section class="settings-section">
+                        <h3>About</h3>
+                        <div class="setting-item">
+                            <span>Version</span>
+                            <span class="setting-value">1.0.0</span>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 id="modal-title">Modal Title</h2>
+                <button id="modal-close" class="modal-close">&times;</button>
+            </div>
+            <div id="modal-content" class="modal-content">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <p>Syncing with server...</p>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="app.js?v=20250805-4"></script>
+</body>
+</html>

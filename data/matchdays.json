@@ -1,0 +1,47 @@
+[
+  {
+    "id": "ff1c5701-968d-4337-b8d6-99b90b4607ee",
+    "name": "Match Day 1",
+    "date": "2025-08-17T00:00:00.000Z",
+    "notes": "",
+    "matches": [
+      {
+        "id": "cbc6cbfc-6f64-4754-8654-13eefdbd0432",
+        "homeTeamId": "c1b12897-ab28-4414-aa24-f551aa19c6a5",
+        "awayTeamId": "a498cf15-a50c-4edb-85d7-354a0c3b4598",
+        "scheduledTime": "2025-08-16T16:00:00.000Z",
+        "field": "10",
+        "status": "Scheduled",
+        "homeTeamPresent": 5,
+        "awayTeamPresent": 3,
+        "homeScore": null,
+        "awayScore": null
+      },
+      {
+        "id": "2ec43501-3f80-481c-b22a-36baa65fafcd",
+        "homeTeamId": "6dcb6796-1fae-4b3a-9b34-a66b13ce07a6",
+        "awayTeamId": "b21235d9-2d1d-4726-b563-274a9919248a",
+        "scheduledTime": "2025-08-16T16:00:00.000Z",
+        "field": "11",
+        "status": "Scheduled",
+        "homeTeamPresent": 2,
+        "awayTeamPresent": 0,
+        "homeScore": null,
+        "awayScore": null
+      },
+      {
+        "id": "3035b7ca-f529-4d10-bffe-4394af09b68e",
+        "homeTeamId": "c1b12897-ab28-4414-aa24-f551aa19c6a5",
+        "awayTeamId": "a498cf15-a50c-4edb-85d7-354a0c3b4598",
+        "scheduledTime": "2025-08-16T18:00:00.000Z",
+        "field": "8",
+        "status": "Scheduled",
+        "homeTeamPresent": 5,
+        "awayTeamPresent": 3,
+        "homeScore": null,
+        "awayScore": null
+      }
+    ],
+    "lastModified": 1754435346.463
+  }
+]

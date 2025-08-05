@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create PWA Icons</title>
+</head>
+<body>
+    <canvas id="canvas192" width="192" height="192" style="border: 1px solid #ccc; margin: 10px;"></canvas>
+    <canvas id="canvas512" width="512" height="512" style="border: 1px solid #ccc; margin: 10px;"></canvas>
+    
+    <script>
+        // Create 192x192 icon
+        const canvas192 = document.getElementById('canvas192');
+        const ctx192 = canvas192.getContext('2d');
+        
+        // Background gradient
+        const gradient192 = ctx192.createLinearGradient(0, 0, 192, 192);
+        gradient192.addColorStop(0, '#4CAF50');
+        gradient192.addColorStop(1, '#2E7D32');
+        ctx192.fillStyle = gradient192;
+        ctx192.fillRect(0, 0, 192, 192);
+        
+        // Soccer ball
+        ctx192.fillStyle = 'white';
+        ctx192.beginPath();
+        ctx192.arc(96, 96, 60, 0, 2 * Math.PI);
+        ctx192.fill();
+        
+        // Soccer ball pattern
+        ctx192.strokeStyle = '#333';
+        ctx192.lineWidth = 3;
+        ctx192.beginPath();
+        ctx192.arc(96, 96, 60, 0, 2 * Math.PI);
+        ctx192.stroke();
+        
+        // Pentagon in center
+        ctx192.fillStyle = '#333';
+        ctx192.beginPath();
+        for (let i = 0; i < 5; i++) {
+            const angle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+            const x = 96 + 15 * Math.cos(angle);
+            const y = 96 + 15 * Math.sin(angle);
+            if (i === 0) ctx192.moveTo(x, y);
+            else ctx192.lineTo(x, y);
+        }
+        ctx192.closePath();
+        ctx192.fill();
+        
+        // Lines from pentagon
+        for (let i = 0; i < 5; i++) {
+            const angle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+            const x1 = 96 + 15 * Math.cos(angle);
+            const y1 = 96 + 15 * Math.sin(angle);
+            const x2 = 96 + 50 * Math.cos(angle);
+            const y2 = 96 + 50 * Math.sin(angle);
+            
+            ctx192.beginPath();
+            ctx192.moveTo(x1, y1);
+            ctx192.lineTo(x2, y2);
+            ctx192.stroke();
+        }
+        
+        // Create 512x512 icon
+        const canvas512 = document.getElementById('canvas512');
+        const ctx512 = canvas512.getContext('2d');
+        
+        // Background gradient
+        const gradient512 = ctx512.createLinearGradient(0, 0, 512, 512);
+        gradient512.addColorStop(0, '#4CAF50');
+        gradient512.addColorStop(1, '#2E7D32');
+        ctx512.fillStyle = gradient512;
+        ctx512.fillRect(0, 0, 512, 512);
+        
+        // Soccer ball
+        ctx512.fillStyle = 'white';
+        ctx512.beginPath();
+        ctx512.arc(256, 256, 160, 0, 2 * Math.PI);
+        ctx512.fill();
+        
+        // Soccer ball pattern
+        ctx512.strokeStyle = '#333';
+        ctx512.lineWidth = 8;
+        ctx512.beginPath();
+        ctx512.arc(256, 256, 160, 0, 2 * Math.PI);
+        ctx512.stroke();
+        
+        // Pentagon in center
+        ctx512.fillStyle = '#333';
+        ctx512.beginPath();
+        for (let i = 0; i < 5; i++) {
+            const angle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+            const x = 256 + 40 * Math.cos(angle);
+            const y = 256 + 40 * Math.sin(angle);
+            if (i === 0) ctx512.moveTo(x, y);
+            else ctx512.lineTo(x, y);
+        }
+        ctx512.closePath();
+        ctx512.fill();
+        
+        // Lines from pentagon
+        for (let i = 0; i < 5; i++) {
+            const angle = (i * 2 * Math.PI) / 5 - Math.PI / 2;
+            const x1 = 256 + 40 * Math.cos(angle);
+            const y1 = 256 + 40 * Math.sin(angle);
+            const x2 = 256 + 130 * Math.cos(angle);
+            const y2 = 256 + 130 * Math.sin(angle);
+            
+            ctx512.beginPath();
+            ctx512.moveTo(x1, y1);
+            ctx512.lineTo(x2, y2);
+            ctx512.stroke();
+        }
+        
+        // Add whistle
+        ctx512.fillStyle = '#FFD700';
+        ctx512.beginPath();
+        ctx512.arc(256, 120, 25, 0, 2 * Math.PI);
+        ctx512.fill();
+        ctx512.strokeStyle = '#333';
+        ctx512.lineWidth = 4;
+        ctx512.stroke();
+        
+        // Whistle hole
+        ctx512.fillStyle = '#333';
+        ctx512.beginPath();
+        ctx512.arc(256, 120, 8, 0, 2 * Math.PI);
+        ctx512.fill();
+        
+        // Download function
+        function downloadCanvas(canvas, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+        
+        // Auto-download icons after a short delay
+        setTimeout(() => {
+            downloadCanvas(canvas192, 'icon-192.png');
+            setTimeout(() => {
+                downloadCanvas(canvas512, 'icon-512.png');
+            }, 1000);
+        }, 1000);
+    </script>
+    
+    <p>Icons will be automatically downloaded. If not, right-click on each canvas and "Save image as..."</p>
+    <p>Save as icon-192.png and icon-512.png in the web-app folder.</p>
+</body>
+</html>

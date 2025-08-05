@@ -1,0 +1,128 @@
+[
+  {
+    "id": "c1b12897-ab28-4414-aa24-f551aa19c6a5",
+    "name": "Ol'Limpians",
+    "colorData": "#FFEB3B",
+    "leagueId": "364C47E0-D393-4945-9A26-E16E3B18E4A0",
+    "players": [
+      {
+        "id": "fb52824e-4546-4969-8ee3-5ef189a9987c",
+        "name": "Ian Good",
+        "jerseyNumber": 72,
+        "isPresent": true
+      },
+      {
+        "id": "93bbb318-3179-4a73-a553-18a4ff81a998",
+        "name": "James Jones",
+        "jerseyNumber": 3,
+        "isPresent": false
+      },
+      {
+        "id": "f1c44236-76f5-4025-854f-6a6cd5807368",
+        "name": "Kat Weiss",
+        "jerseyNumber": 8,
+        "isPresent": true
+      },
+      {
+        "id": "76d18bd0-03c7-4770-af88-7e3adfc8f3f6",
+        "name": "Krissy Balch",
+        "jerseyNumber": 5,
+        "isPresent": true
+      },
+      {
+        "id": "67a3d623-0a04-43fc-ba21-7b6b3acee76d",
+        "name": "Lauren Nelson",
+        "jerseyNumber": 18,
+        "isPresent": true
+      },
+      {
+        "id": "0c876013-7bbf-4653-9a81-31b8c6a21f68",
+        "name": "Lionel Gentil",
+        "jerseyNumber": 11,
+        "isPresent": true
+      }
+    ],
+    "lastModified": 1754410893.12
+  },
+  {
+    "id": "a498cf15-a50c-4edb-85d7-354a0c3b4598",
+    "name": "Stingrays ReUnited",
+    "colorData": "#2196F3",
+    "leagueId": "364C47E0-D393-4945-9A26-E16E3B18E4A0",
+    "players": [
+      {
+        "id": "bd5222e1-1443-4109-8721-db0f483d05c9",
+        "name": "Alain Giresse",
+        "jerseyNumber": 12,
+        "isPresent": false
+      },
+      {
+        "id": "40a4da01-be1d-479b-846f-3f5090126fef",
+        "name": "Andrew Woodward",
+        "jerseyNumber": 10,
+        "isPresent": true
+      },
+      {
+        "id": "147855ca-5f8c-4370-99a8-8fe5ad55118f",
+        "name": "Foo Bar",
+        "jerseyNumber": 1,
+        "isPresent": true
+      },
+      {
+        "id": "ceafb357-90bf-4b78-9a4f-dce5533e3348",
+        "name": "John Smith",
+        "jerseyNumber": 4,
+        "isPresent": true
+      },
+      {
+        "id": "31ebc9fc-ab0c-4cdb-9957-8d412c7ba076",
+        "name": "Michel Platini",
+        "jerseyNumber": 9,
+        "isPresent": false
+      }
+    ],
+    "lastModified": 1754356705.03
+  },
+  {
+    "id": "b21235d9-2d1d-4726-b563-274a9919248a",
+    "name": "Lumber Jacks",
+    "colorData": "#F44336",
+    "leagueId": "78E07FBD-352D-46A0-87F7-F3F119E08FC6",
+    "players": [
+      {
+        "id": "680df389-bb83-4ed2-a315-33fd6203e754",
+        "name": "Krissy Balch",
+        "jerseyNumber": 5,
+        "isPresent": false
+      },
+      {
+        "id": "7e033e23-0562-41f1-8a8b-907687b3f847",
+        "name": "Paul Rosso",
+        "jerseyNumber": 11,
+        "isPresent": false
+      }
+    ],
+    "lastModified": 1754356715.599
+  },
+  {
+    "id": "6dcb6796-1fae-4b3a-9b34-a66b13ce07a6",
+    "name": "Flash",
+    "colorData": "#4CAF50",
+    "leagueId": "78E07FBD-352D-46A0-87F7-F3F119E08FC6",
+    "players": [
+      {
+        "id": "ea8295c4-6207-4653-ae73-949d0360c027",
+        "name": "John Smith",
+        "jerseyNumber": 10,
+        "isPresent": true
+      },
+      {
+        "id": "c78b1957-6506-49bd-b205-a6aa12064b94",
+        "name": "Mike Johnson",
+        "jerseyNumber": 7,
+        "isPresent": true
+      }
+    ],
+    "lastModified": 1754356722.36
+  }
+]
