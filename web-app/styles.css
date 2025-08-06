@@ -480,6 +480,8 @@ body {
     max-height: 90vh;
     overflow: hidden;
     box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
 }
 
 .modal-header {
@@ -508,6 +510,7 @@ body {
     padding: 1.5rem;
     overflow-y: auto;
     max-height: calc(90vh - 120px);
+    flex: 1;
 }
 
 /* Forms */
@@ -635,6 +638,18 @@ body {
     .modal-content {
         padding: 1rem;
         max-height: calc(95vh - 100px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Ensure form actions are visible on tablets */
+    .form-actions {
+        position: sticky;
+        bottom: 0;
+        background: white;
+        padding: 1rem 0 0 0;
+        margin-top: 1.5rem;
+        border-top: 1px solid #f0f0f0;
     }
     
     .form-actions {
@@ -749,10 +764,45 @@ body {
     
     .modal-header {
         padding: 1rem;
+        flex-shrink: 0;
     }
     
     .modal-content {
         padding: 0.75rem;
+        max-height: calc(98vh - 140px);
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Ensure form actions are always visible */
+    .form-actions {
+        position: sticky;
+        bottom: 0;
+        background: white;
+        padding: 1rem 0 0 0;
+        margin-top: 1rem;
+        border-top: 1px solid #f0f0f0;
+    }
+    
+    /* Make delete buttons more visible */
+    .btn-danger {
+        background: #ff4444;
+        color: white;
+        font-weight: 600;
+        min-width: 70px;
+        box-shadow: 0 2px 4px rgba(255, 68, 68, 0.3);
+    }
+    
+    .btn-danger:hover {
+        background: #cc0000;
+        box-shadow: 0 4px 8px rgba(255, 68, 68, 0.4);
+    }
+    
+    .btn-danger.btn-sm {
+        min-width: 60px;
+        font-size: 0.75rem;
+        padding: 0.6rem 0.8rem;
+        font-weight: 600;
     }
     
     /* Form improvements */
