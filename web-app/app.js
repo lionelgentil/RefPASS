@@ -760,12 +760,21 @@ class SoccerRefereeApp {
     }
 
     addMatchToMatchDay(matchDayId) {
-        const teamOptions = this.data.teams.map(team =>
-            `<option value="${team.id}">${team.name}</option>`
-        ).join('');
+        try {
+            console.log('addMatchToMatchDay called with matchDayId:', matchDayId);
+            console.log('Available teams:', this.data.teams.length);
+            
+            if (this.data.teams.length < 2) {
+                this.showToast(`Need at least 2 teams to create a match. Currently have ${this.data.teams.length} team(s). Please add more teams first.`, 'error');
+                return;
+            }
 
-        if (this.data.teams.length < 2) {
-            this.showToast('Need at least 2 teams to create a match', 'error');
+            const teamOptions = this.data.teams.map(team =>
+                `<option value="${team.id}">${team.name}</option>`
+            ).join('');
+        } catch (error) {
+            console.error('Error in addMatchToMatchDay:', error);
+            this.showToast('Error opening add match dialog. Check console for details.', 'error');
             return;
         }
 
