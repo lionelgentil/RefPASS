@@ -808,14 +808,23 @@ class SoccerRefereeApp {
         document.getElementById('add-match-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
+            console.log('Add match form submitted');
+            
             const homeTeamId = document.getElementById('home-team').value;
             const awayTeamId = document.getElementById('away-team').value;
             const matchTime = document.getElementById('match-time').value;
             const field = document.getElementById('match-field').value.trim();
             
-            if (!homeTeamId || !awayTeamId || !matchTime || !field) return;
+            console.log('Form values:', { homeTeamId, awayTeamId, matchTime, field });
+            
+            if (!homeTeamId || !awayTeamId || !matchTime || !field) {
+                console.log('Missing required fields');
+                this.showToast('Please fill in all required fields', 'error');
+                return;
+            }
 
             if (homeTeamId === awayTeamId) {
+                console.log('Same team selected for home and away');
                 this.showToast('Home and away teams must be different', 'error');
                 return;
             }
@@ -862,23 +871,29 @@ class SoccerRefereeApp {
             });
 
             try {
+                console.log('Sending match data to server...');
                 const response = await fetch(`${this.serverURL}/matchdays`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(this.data.matchDays)
                 });
 
+                console.log('Server response status:', response.status);
+                
                 if (response.ok) {
+                    console.log('Match added successfully');
                     this.hideModal();
                     this.updateUI(); // Refresh the main UI
                     this.viewMatchDay(matchDayId); // Refresh match day view
                     this.showToast('Match added successfully', 'success');
                 } else {
-                    throw new Error('Failed to add match');
+                    const errorText = await response.text();
+                    console.error('Server error:', response.status, errorText);
+                    throw new Error(`Failed to add match: ${response.status} ${errorText}`);
                 }
             } catch (error) {
                 console.error('Error adding match:', error);
-                this.showToast('Failed to add match', 'error');
+                this.showToast(`Failed to add match: ${error.message}`, 'error');
             }
         });
     }
