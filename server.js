@@ -6,6 +6,9 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Disable ETag generation globally
+app.set('etag', false);
+
 // Middleware
 app.use(cors());
 app.use(express.json({ limit: '50mb' })); // Large limit for player photos
@@ -283,12 +286,27 @@ app.get('/api/backup', async (req, res) => {
 
 // Serve the web app with aggressive no-cache headers
 app.get('/', (req, res) => {
-    // Apply aggressive no-cache headers without Last-Modified/ETag to prevent conditional requests
-    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private');
-    res.setHeader('Pragma', 'no-cache');
-    res.setHeader('Expires', '0');
-    res.setHeader('X-Content-Type-Options', 'nosniff');
-    res.setHeader('Vary', 'Accept-Encoding');
+    // Override the writeHead method to remove problematic headers
+    const originalWriteHead = res.writeHead;
+    res.writeHead = function(statusCode, headers) {
+        // Remove problematic headers
+        if (this.getHeader('Last-Modified')) {
+            this.removeHeader('Last-Modified');
+        }
+        if (this.getHeader('ETag')) {
+            this.removeHeader('ETag');
+        }
+        
+        // Apply aggressive no-cache headers
+        this.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private');
+        this.setHeader('Pragma', 'no-cache');
+        this.setHeader('Expires', '0');
+        this.setHeader('X-Content-Type-Options', 'nosniff');
+        this.setHeader('Vary', 'Accept-Encoding');
+        
+        // Call original writeHead
+        return originalWriteHead.call(this, statusCode, headers);
+    };
     
     res.sendFile(path.join(__dirname, 'web-app', 'index.html'));
 });
