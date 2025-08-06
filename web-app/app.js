@@ -1,7 +1,7 @@
 // Soccer Referee Web App - Main JavaScript File
 class SoccerRefereeApp {
     constructor() {
-        this.serverURL = 'http://localhost:3000/api';
+        this.serverURL = window.location.origin + '/api';
         this.data = {
             leagues: [
                 { id: '78E07FBD-352D-46A0-87F7-F3F119E08FC6', name: 'Over 30' },
