@@ -11,15 +11,13 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' })); // Large limit for player photos
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Serve static files from web-app directory with aggressive cache control
+// Serve static files from web-app directory with aggressive no-cache control
 app.use(express.static(path.join(__dirname, 'web-app'), {
     setHeaders: (res, path) => {
-        // Disable caching for all files to prevent stale code issues
+        // Disable caching for all files without Last-Modified/ETag to prevent conditional requests
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private');
         res.setHeader('Pragma', 'no-cache');
         res.setHeader('Expires', '0');
-        res.setHeader('Last-Modified', new Date().toUTCString());
-        res.setHeader('ETag', Date.now().toString());
         
         // Additional headers for HTML and JS files
         if (path.endsWith('.js') || path.endsWith('.html')) {
@@ -283,14 +281,12 @@ app.get('/api/backup', async (req, res) => {
     }
 });
 
-// Serve the web app with cache-busting headers
+// Serve the web app with aggressive no-cache headers
 app.get('/', (req, res) => {
-    // Apply the same cache-busting headers as static files
+    // Apply aggressive no-cache headers without Last-Modified/ETag to prevent conditional requests
     res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private');
     res.setHeader('Pragma', 'no-cache');
     res.setHeader('Expires', '0');
-    res.setHeader('Last-Modified', new Date().toUTCString());
-    res.setHeader('ETag', Date.now().toString());
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('Vary', 'Accept-Encoding');
     
