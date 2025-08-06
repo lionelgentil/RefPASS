@@ -292,7 +292,29 @@ class SoccerRefereeApp {
     // Modal functions
     showModal(title, content) {
         document.getElementById('modal-title').textContent = title;
-        document.getElementById('modal-content').innerHTML = content;
+        
+        // Split content into body and form actions
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = content;
+        
+        // Find form actions
+        const formActions = tempDiv.querySelector('.form-actions');
+        let bodyContent = content;
+        let actionsContent = '';
+        
+        if (formActions) {
+            // Remove form actions from body content
+            formActions.remove();
+            bodyContent = tempDiv.innerHTML;
+            actionsContent = formActions.outerHTML;
+        }
+        
+        document.getElementById('modal-content').innerHTML = `
+            <div class="modal-body">
+                ${bodyContent}
+            </div>
+            ${actionsContent}
+        `;
         document.getElementById('modal-overlay').classList.remove('hidden');
     }
 
@@ -1242,6 +1264,7 @@ class SoccerRefereeApp {
             
             <div class="form-actions" style="margin-top: 1.5rem;">
                 <button type="button" class="btn btn-secondary" onclick="app.hideModal()">Close</button>
+                <button type="button" class="btn btn-danger" onclick="app.deleteMatchDay('${matchDayId}')">Delete Match Day</button>
                 <button type="button" class="btn btn-primary" onclick="app.addMatchToMatchDay('${matchDayId}')">Add Match</button>
             </div>
         `;
@@ -1300,6 +1323,47 @@ class SoccerRefereeApp {
             this.showToast('Failed to delete match', 'error');
             // Restore match if server update failed
             matchDay.matches.push(match);
+        }
+    }
+
+    async deleteMatchDay(matchDayId) {
+        const matchDay = this.data.matchDays.find(md => md.id === matchDayId);
+        if (!matchDay) return;
+
+        // Confirm deletion
+        const matchCount = matchDay.matches.length;
+        const warningMessage = matchCount > 0
+            ? `Are you sure you want to delete "${matchDay.name}"?\n\nThis match day has ${matchCount} scheduled match${matchCount > 1 ? 'es' : ''} that will also be deleted.\n\nThis action cannot be undone.`
+            : `Are you sure you want to delete "${matchDay.name}"?\n\nThis action cannot be undone.`;
+        
+        if (!confirm(warningMessage)) {
+            return;
+        }
+
+        try {
+            // Remove match day from local data
+            this.data.matchDays = this.data.matchDays.filter(md => md.id !== matchDayId);
+
+            // Update server
+            const response = await fetch(`${this.serverURL}/matchdays`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(this.data.matchDays)
+            });
+
+            if (response.ok) {
+                this.hideModal();
+                this.updateUI();
+                this.showToast('Match day deleted successfully', 'success');
+            } else {
+                throw new Error('Failed to delete match day');
+            }
+        } catch (error) {
+            console.error('Error deleting match day:', error);
+            this.showToast('Failed to delete match day', 'error');
+            // Restore match day if server update failed
+            this.data.matchDays.push(matchDay);
+            this.data.matchDays.sort((a, b) => new Date(a.date) - new Date(b.date));
         }
     }
 
