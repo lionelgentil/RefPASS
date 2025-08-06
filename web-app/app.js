@@ -932,7 +932,7 @@ class SoccerRefereeApp {
                 <div style="padding: 1rem; border: 1px solid #e0e0e0; border-radius: 8px;">
                     <div style="font-weight: bold; margin-bottom: 0.5rem; text-align: center;">${homeTeam.name}</div>
                     ${match.homeScore !== null ? `<div style="font-size: 1.5rem; font-weight: bold; color: #4CAF50; margin-bottom: 0.5rem; text-align: center;">${match.homeScore}</div>` : ''}
-                    <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">Present Players:</div>
+                    <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">Present Players (${homeTeam.players.filter(p => p.isPresent).length}):</div>
                     <div style="max-height: 120px; overflow-y: auto;">
                         ${homeTeam.players.filter(p => p.isPresent).length === 0 ?
                             '<div style="font-style: italic; color: #999; font-size: 0.8rem;">No players checked in</div>' :
@@ -947,7 +947,7 @@ class SoccerRefereeApp {
                 <div style="padding: 1rem; border: 1px solid #e0e0e0; border-radius: 8px;">
                     <div style="font-weight: bold; margin-bottom: 0.5rem; text-align: center;">${awayTeam.name}</div>
                     ${match.awayScore !== null ? `<div style="font-size: 1.5rem; font-weight: bold; color: #4CAF50; margin-bottom: 0.5rem; text-align: center;">${match.awayScore}</div>` : ''}
-                    <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">Present Players:</div>
+                    <div style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">Present Players (${awayTeam.players.filter(p => p.isPresent).length}):</div>
                     <div style="max-height: 120px; overflow-y: auto;">
                         ${awayTeam.players.filter(p => p.isPresent).length === 0 ?
                             '<div style="font-style: italic; color: #999; font-size: 0.8rem;">No players checked in</div>' :
