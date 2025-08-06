@@ -2,13 +2,25 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy package files
-COPY package*.json ./
+# Copy package files first
+COPY package.json ./
+COPY package-lock.json ./
 
-# Clear npm cache and install with specific flags
+# Debug: Show what we're working with
+RUN echo "=== Package.json contents ===" && \
+    cat package.json && \
+    echo "=== Node and npm versions ===" && \
+    node --version && \
+    npm --version
+
+# Install dependencies with error handling
 RUN npm cache clean --force && \
     npm config set registry https://registry.npmjs.org/ && \
-    npm install --no-optional --no-audit --no-fund --legacy-peer-deps
+    npm install --production=false --verbose && \
+    echo "=== Installed packages ===" && \
+    npm list --depth=0 && \
+    echo "=== Checking express specifically ===" && \
+    ls -la node_modules/ | grep express || echo "Express not found!"
 
 # Copy application code
 COPY . .
