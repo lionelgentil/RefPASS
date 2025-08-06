@@ -11,14 +11,20 @@ app.use(cors());
 app.use(express.json({ limit: '50mb' })); // Large limit for player photos
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-// Serve static files from web-app directory with cache control
+// Serve static files from web-app directory with aggressive cache control
 app.use(express.static(path.join(__dirname, 'web-app'), {
     setHeaders: (res, path) => {
-        // Disable caching for JavaScript and HTML files to prevent stale code issues
+        // Disable caching for all files to prevent stale code issues
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+        res.setHeader('Last-Modified', new Date().toUTCString());
+        res.setHeader('ETag', Date.now().toString());
+        
+        // Additional headers for HTML and JS files
         if (path.endsWith('.js') || path.endsWith('.html')) {
-            res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
-            res.setHeader('Pragma', 'no-cache');
-            res.setHeader('Expires', '0');
+            res.setHeader('X-Content-Type-Options', 'nosniff');
+            res.setHeader('Vary', 'Accept-Encoding');
         }
     }
 }));
