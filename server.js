@@ -283,8 +283,17 @@ app.get('/api/backup', async (req, res) => {
     }
 });
 
-// Serve the web app
+// Serve the web app with cache-busting headers
 app.get('/', (req, res) => {
+    // Apply the same cache-busting headers as static files
+    res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private');
+    res.setHeader('Pragma', 'no-cache');
+    res.setHeader('Expires', '0');
+    res.setHeader('Last-Modified', new Date().toUTCString());
+    res.setHeader('ETag', Date.now().toString());
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('Vary', 'Accept-Encoding');
+    
     res.sendFile(path.join(__dirname, 'web-app', 'index.html'));
 });
 
