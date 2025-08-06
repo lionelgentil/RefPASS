@@ -1,6 +1,9 @@
 [build]
 builder = "nixpacks"
 
+[build.nixpacksConfig]
+installCmd = "npm install"
+
 [deploy]
 startCommand = "npm start"
 healthcheckPath = "/"
@@ -11,3 +14,4 @@ restartPolicyMaxRetries = 10
 [env]
 NODE_ENV = "production"
 PORT = "$PORT"
+NPM_CONFIG_PRODUCTION = "false"
