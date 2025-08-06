@@ -883,7 +883,7 @@ class SoccerRefereeApp {
         });
     }
 
-    viewMatch(matchId) {
+    viewMatch(matchId, fromMatchDay = null) {
         // Find the match across all match days
         let match = null;
         let matchDay = null;
@@ -898,6 +898,9 @@ class SoccerRefereeApp {
         }
 
         if (!match || !matchDay) return;
+        
+        // Store the match day ID for navigation back
+        this.currentMatchDayId = fromMatchDay || matchDay.id;
 
         const homeTeam = this.data.teams.find(t => t.id === match.homeTeamId);
         const awayTeam = this.data.teams.find(t => t.id === match.awayTeamId);
@@ -965,7 +968,7 @@ class SoccerRefereeApp {
             </div>
             
             <div class="form-actions">
-                <button type="button" class="btn btn-secondary" onclick="app.hideModal()">Close</button>
+                <button type="button" class="btn btn-secondary" onclick="app.viewMatchDay('${this.currentMatchDayId}')">Close</button>
                 <button type="button" class="btn btn-primary" onclick="app.checkInMatch('${matchId}')">Check-in Players</button>
                 ${match.status === 'Scheduled' || match.status === 'In Progress' ?
                     `<button type="button" class="btn btn-success" onclick="app.enterScore('${matchId}')">Enter Score</button>` :
@@ -1228,18 +1231,18 @@ class SoccerRefereeApp {
                 return `
                     <div class="match-item" style="padding: 1rem; border-bottom: 1px solid #f0f0f0; position: relative;">
                         <div style="display: flex; align-items: center; margin-bottom: 0.5rem;">
-                            <div style="display: flex; align-items: center; flex: 1; cursor: pointer;" onclick="app.viewMatch('${match.id}')">
+                            <div style="display: flex; align-items: center; flex: 1; cursor: pointer;" onclick="app.viewMatch('${match.id}', '${matchDay.id}')">
                                 <div style="width: 15px; height: 15px; background: ${homeTeam ? this.getTeamColor(homeTeam) : '#ccc'}; border-radius: 50%; margin-right: 0.5rem;"></div>
                                 <span style="font-weight: 500;">${homeTeam ? homeTeam.name : '⚠️ Team Not Found'}</span>
                             </div>
                             <span style="color: #666; margin: 0 1rem;">vs</span>
-                            <div style="display: flex; align-items: center; flex: 1; cursor: pointer;" onclick="app.viewMatch('${match.id}')">
+                            <div style="display: flex; align-items: center; flex: 1; cursor: pointer;" onclick="app.viewMatch('${match.id}', '${matchDay.id}')">
                                 <div style="width: 15px; height: 15px; background: ${awayTeam ? this.getTeamColor(awayTeam) : '#ccc'}; border-radius: 50%; margin-right: 0.5rem;"></div>
                                 <span style="font-weight: 500;">${awayTeam ? awayTeam.name : '⚠️ Team Not Found'}</span>
                             </div>
                             <button class="btn btn-danger btn-sm" onclick="event.stopPropagation(); app.deleteMatch('${match.id}')" style="margin-left: 0.5rem; font-size: 0.7rem; padding: 0.25rem 0.5rem;">Delete</button>
                         </div>
-                        <div style="display: flex; align-items: center; font-size: 0.9rem; color: #666; cursor: pointer;" onclick="app.viewMatch('${match.id}')">
+                        <div style="display: flex; align-items: center; font-size: 0.9rem; color: #666; cursor: pointer;" onclick="app.viewMatch('${match.id}', '${matchDay.id}')">
                             <span>${new Date(match.scheduledTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                             <span style="margin: 0 0.5rem;">•</span>
                             <span>Field ${match.field}</span>

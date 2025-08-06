@@ -290,6 +290,9 @@ app.get('/', async (req, res) => {
         // Read the file manually to avoid Express auto-adding ETag/Last-Modified
         const htmlContent = await fs.readFile(path.join(__dirname, 'web-app', 'index.html'), 'utf8');
         
+        // Set status code first
+        res.statusCode = 200;
+        
         // Set aggressive no-cache headers manually
         res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private');
         res.setHeader('Pragma', 'no-cache');
@@ -297,12 +300,15 @@ app.get('/', async (req, res) => {
         res.setHeader('X-Content-Type-Options', 'nosniff');
         res.setHeader('Vary', 'Accept-Encoding');
         res.setHeader('Content-Type', 'text/html; charset=UTF-8');
+        res.setHeader('Content-Length', Buffer.byteLength(htmlContent, 'utf8'));
         
-        // Send the content directly without using sendFile
-        res.send(htmlContent);
+        // Use res.end() instead of res.send() to avoid any Express middleware
+        res.end(htmlContent);
     } catch (error) {
         console.error('Error serving index.html:', error);
-        res.status(500).send('Internal Server Error');
+        res.statusCode = 500;
+        res.setHeader('Content-Type', 'text/plain');
+        res.end('Internal Server Error');
     }
 });
 
