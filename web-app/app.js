@@ -760,8 +760,10 @@ class SoccerRefereeApp {
     }
 
     addMatchToMatchDay(matchDayId) {
-        console.log('addMatchToMatchDay called with matchDayId:', matchDayId);
+        console.log('=== addMatchToMatchDay CALLED ===');
+        console.log('matchDayId:', matchDayId);
         console.log('Available teams:', this.data.teams.length);
+        console.log('Teams data:', this.data.teams);
         
         if (this.data.teams.length < 2) {
             this.showToast(`Need at least 2 teams to create a match. Currently have ${this.data.teams.length} team(s). Please add more teams first.`, 'error');
@@ -805,7 +807,17 @@ class SoccerRefereeApp {
 
         this.showModal('Add Match', content);
 
-        document.getElementById('add-match-form').addEventListener('submit', async (e) => {
+        // Add debugging to check if event listener is attached
+        console.log('Attaching event listener to add-match-form');
+        const form = document.getElementById('add-match-form');
+        console.log('Form element found:', form);
+        
+        if (!form) {
+            console.error('add-match-form not found!');
+            return;
+        }
+
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
             
             console.log('Add match form submitted');
@@ -895,6 +907,22 @@ class SoccerRefereeApp {
                 console.error('Error adding match:', error);
                 this.showToast(`Failed to add match: ${error.message}`, 'error');
             }
+        });
+        
+        // Add backup click listener to submit button
+        const submitButton = form.querySelector('button[type="submit"]');
+        console.log('Submit button found:', submitButton);
+        
+        if (submitButton) {
+            submitButton.addEventListener('click', (e) => {
+                console.log('Submit button clicked directly');
+                // Don't prevent default here, let the form submission handle it
+            });
+        }
+        
+        // Add general error handling
+        window.addEventListener('error', (e) => {
+            console.error('JavaScript error:', e.error, e.message, e.filename, e.lineno);
         });
     }
 
