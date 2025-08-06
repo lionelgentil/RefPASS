@@ -919,7 +919,7 @@ class SoccerRefereeApp {
                 </div>
                 <div style="text-align: center; color: #666;">
                     <div>${new Date(match.scheduledTime).toLocaleString()}</div>
-                    <div>${match.field}</div>
+                    <div>Field ${match.field}</div>
                     <div style="margin-top: 0.5rem;">
                         <span style="background: #4CAF50; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.9rem;">
                             ${match.status}
@@ -1239,7 +1239,7 @@ class SoccerRefereeApp {
                         <div style="display: flex; align-items: center; font-size: 0.9rem; color: #666; cursor: pointer;" onclick="app.viewMatch('${match.id}')">
                             <span>${new Date(match.scheduledTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                             <span style="margin: 0 0.5rem;">•</span>
-                            <span>${match.field}</span>
+                            <span>Field ${match.field}</span>
                             <span style="margin-left: auto; background: #4CAF50; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.8rem;">
                                 ${match.status}
                             </span>
@@ -1295,7 +1295,7 @@ class SoccerRefereeApp {
         const matchTime = new Date(match.scheduledTime).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
         
         // Confirm deletion
-        if (!confirm(`Are you sure you want to delete this match?\n\n${matchDescription}\n${matchTime} - ${match.field}\n\nThis action cannot be undone.`)) {
+        if (!confirm(`Are you sure you want to delete this match?\n\n${matchDescription}\n${matchTime} - Field ${match.field}\n\nThis action cannot be undone.`)) {
             return;
         }
 
