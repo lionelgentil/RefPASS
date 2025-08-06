@@ -285,30 +285,25 @@ app.get('/api/backup', async (req, res) => {
 });
 
 // Serve the web app with aggressive no-cache headers
-app.get('/', (req, res) => {
-    // Override the writeHead method to remove problematic headers
-    const originalWriteHead = res.writeHead;
-    res.writeHead = function(statusCode, headers) {
-        // Remove problematic headers
-        if (this.getHeader('Last-Modified')) {
-            this.removeHeader('Last-Modified');
-        }
-        if (this.getHeader('ETag')) {
-            this.removeHeader('ETag');
-        }
+app.get('/', async (req, res) => {
+    try {
+        // Read the file manually to avoid Express auto-adding ETag/Last-Modified
+        const htmlContent = await fs.readFile(path.join(__dirname, 'web-app', 'index.html'), 'utf8');
         
-        // Apply aggressive no-cache headers
-        this.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private');
-        this.setHeader('Pragma', 'no-cache');
-        this.setHeader('Expires', '0');
-        this.setHeader('X-Content-Type-Options', 'nosniff');
-        this.setHeader('Vary', 'Accept-Encoding');
+        // Set aggressive no-cache headers manually
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private');
+        res.setHeader('Pragma', 'no-cache');
+        res.setHeader('Expires', '0');
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.setHeader('Vary', 'Accept-Encoding');
+        res.setHeader('Content-Type', 'text/html; charset=UTF-8');
         
-        // Call original writeHead
-        return originalWriteHead.call(this, statusCode, headers);
-    };
-    
-    res.sendFile(path.join(__dirname, 'web-app', 'index.html'));
+        // Send the content directly without using sendFile
+        res.send(htmlContent);
+    } catch (error) {
+        console.error('Error serving index.html:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 // Error handling middleware
