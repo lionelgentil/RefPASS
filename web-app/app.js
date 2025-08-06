@@ -760,23 +760,17 @@ class SoccerRefereeApp {
     }
 
     addMatchToMatchDay(matchDayId) {
-        try {
-            console.log('addMatchToMatchDay called with matchDayId:', matchDayId);
-            console.log('Available teams:', this.data.teams.length);
-            
-            if (this.data.teams.length < 2) {
-                this.showToast(`Need at least 2 teams to create a match. Currently have ${this.data.teams.length} team(s). Please add more teams first.`, 'error');
-                return;
-            }
-
-            const teamOptions = this.data.teams.map(team =>
-                `<option value="${team.id}">${team.name}</option>`
-            ).join('');
-        } catch (error) {
-            console.error('Error in addMatchToMatchDay:', error);
-            this.showToast('Error opening add match dialog. Check console for details.', 'error');
+        console.log('addMatchToMatchDay called with matchDayId:', matchDayId);
+        console.log('Available teams:', this.data.teams.length);
+        
+        if (this.data.teams.length < 2) {
+            this.showToast(`Need at least 2 teams to create a match. Currently have ${this.data.teams.length} team(s). Please add more teams first.`, 'error');
             return;
         }
+
+        const teamOptions = this.data.teams.map(team =>
+            `<option value="${team.id}">${team.name}</option>`
+        ).join('');
 
         const content = `
             <form id="add-match-form">
@@ -1044,7 +1038,7 @@ class SoccerRefereeApp {
             </div>
             
             <div class="form-actions" style="margin-top: 1.5rem;">
-                <button type="button" class="btn btn-secondary" onclick="app.hideModal()">Close</button>
+                <button type="button" class="btn btn-secondary" onclick="app.viewMatch('${matchId}')">Close</button>
                 <button type="button" class="btn btn-primary" onclick="app.saveCheckIn('${matchId}')">Save Check-in</button>
             </div>
         `;
