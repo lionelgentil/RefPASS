@@ -392,6 +392,8 @@ class SoccerRefereeApp {
     }
 
     showAddMatchDayModal() {
+        console.log('=== showAddMatchDayModal CALLED ===');
+        
         const content = `
             <form id="add-matchday-form">
                 <div class="form-group">
@@ -418,10 +420,16 @@ class SoccerRefereeApp {
         // Set default date to today
         document.getElementById('matchday-date').valueAsDate = new Date();
 
-        document.getElementById('add-matchday-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            this.addMatchDay();
-        });
+        const matchDayForm = document.getElementById('add-matchday-form');
+        if (matchDayForm) {
+            matchDayForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                console.log('Match day form submitted');
+                this.addMatchDay();
+            });
+        } else {
+            console.error('add-matchday-form not found!');
+        }
     }
 
     selectColor(color, element) {
@@ -606,11 +614,19 @@ class SoccerRefereeApp {
     }
 
     async addMatchDay() {
+        console.log('=== addMatchDay CALLED ===');
+        
         const name = document.getElementById('matchday-name').value.trim();
         const date = document.getElementById('matchday-date').value;
         const notes = document.getElementById('matchday-notes').value.trim();
+        
+        console.log('Match day form values:', { name, date, notes });
 
-        if (!name || !date) return;
+        if (!name || !date) {
+            console.log('Missing required fields for match day');
+            this.showToast('Please fill in all required fields', 'error');
+            return;
+        }
 
         const newMatchDay = {
             id: this.generateUUID(),
@@ -622,24 +638,32 @@ class SoccerRefereeApp {
         };
 
         try {
+            console.log('Sending match day data to server...');
+            console.log('New match day:', newMatchDay);
+            
             const response = await fetch(`${this.serverURL}/matchdays`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify([...this.data.matchDays, newMatchDay])
             });
 
+            console.log('Server response status:', response.status);
+
             if (response.ok) {
+                console.log('Match day created successfully');
                 this.data.matchDays.push(newMatchDay);
                 this.data.matchDays.sort((a, b) => new Date(a.date) - new Date(b.date));
                 this.hideModal();
                 this.updateUI();
                 this.showToast('Match day created successfully', 'success');
             } else {
-                throw new Error('Failed to create match day');
+                const errorText = await response.text();
+                console.error('Server error:', response.status, errorText);
+                throw new Error(`Failed to create match day: ${response.status} ${errorText}`);
             }
         } catch (error) {
             console.error('Error creating match day:', error);
-            this.showToast('Failed to create match day', 'error');
+            this.showToast(`Failed to create match day: ${error.message}`, 'error');
         }
     }
 

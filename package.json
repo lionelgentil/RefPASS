@@ -1,6 +1,6 @@
 {
   "name": "soccer-referee-app",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "Soccer Referee App - Unified Server with Web Interface",
   "main": "server.js",
   "scripts": {
