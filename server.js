@@ -288,19 +288,29 @@ app.get('/api/backup', async (req, res) => {
 app.get('/', async (req, res) => {
     try {
         // Read the file manually to avoid Express auto-adding ETag/Last-Modified
-        const htmlContent = await fs.readFile(path.join(__dirname, 'web-app', 'index.html'), 'utf8');
+        let htmlContent = await fs.readFile(path.join(__dirname, 'web-app', 'index.html'), 'utf8');
+        
+        // Inject a timestamp into the HTML to make it unique every time
+        const timestamp = Date.now();
+        const timestampComment = `<!-- Cache-bust: ${timestamp} -->`;
+        htmlContent = htmlContent.replace('</head>', `${timestampComment}\n</head>`);
         
         // Set status code first
         res.statusCode = 200;
         
-        // Set aggressive no-cache headers manually
-        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private');
+        // Set even more aggressive no-cache headers
+        res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate, private, max-age=0');
         res.setHeader('Pragma', 'no-cache');
-        res.setHeader('Expires', '0');
+        res.setHeader('Expires', 'Thu, 01 Jan 1970 00:00:00 GMT');
+        res.setHeader('Last-Modified', new Date(0).toUTCString());
         res.setHeader('X-Content-Type-Options', 'nosniff');
-        res.setHeader('Vary', 'Accept-Encoding');
+        res.setHeader('Vary', '*');
         res.setHeader('Content-Type', 'text/html; charset=UTF-8');
         res.setHeader('Content-Length', Buffer.byteLength(htmlContent, 'utf8'));
+        
+        // Add custom headers to prevent caching
+        res.setHeader('X-Timestamp', timestamp.toString());
+        res.setHeader('X-No-Cache', 'true');
         
         // Use res.end() instead of res.send() to avoid any Express middleware
         res.end(htmlContent);
