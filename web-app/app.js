@@ -14,10 +14,12 @@ class SoccerRefereeApp {
         this.syncStatus = '';
         this.lastSyncDate = null;
         
+        console.log('=== SoccerRefereeApp CONSTRUCTOR CALLED ===');
         this.init();
     }
 
     async init() {
+        console.log('=== INIT METHOD CALLED ===');
         // Show splash screen for 3 seconds
         setTimeout(() => {
             this.hideSplashScreen();
